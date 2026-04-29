@@ -12,11 +12,11 @@ export const Route = createFileRoute("/admin")({
   component: AdminLayout,
 });
 
-const NAV = [
+const NAV: Array<{ to: "/admin" | "/admin/leads" | "/admin/services"; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
   { to: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
   { to: "/admin/leads", label: "Leads", icon: Users },
   { to: "/admin/services", label: "Services", icon: Wrench },
-] as const;
+];
 
 function AdminLayout() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
