@@ -14,10 +14,14 @@ import { Route as MarketplacesRouteImport } from './routes/marketplaces'
 import { Route as LearningRouteImport } from './routes/learning'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AmazonRouteImport } from './routes/amazon'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as ApiContactRouteImport } from './routes/api.contact'
 import { Route as ApiAdminRouteImport } from './routes/api.admin'
+import { Route as AdminServicesRouteImport } from './routes/admin.services'
+import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
 
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
@@ -44,6 +48,11 @@ const AmazonRoute = AmazonRouteImport.update({
   path: '/amazon',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -53,6 +62,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
 } as any)
 const ApiContactRoute = ApiContactRouteImport.update({
   id: '/api/contact',
@@ -64,17 +78,31 @@ const ApiAdminRoute = ApiAdminRouteImport.update({
   path: '/api/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminServicesRoute = AdminServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLeadsRoute = AdminLeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => AdminRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/amazon': typeof AmazonRoute
   '/contact': typeof ContactRoute
   '/learning': typeof LearningRoute
   '/marketplaces': typeof MarketplacesRoute
   '/services': typeof ServicesRoute
+  '/admin/leads': typeof AdminLeadsRoute
+  '/admin/services': typeof AdminServicesRoute
   '/api/admin': typeof ApiAdminRoute
   '/api/contact': typeof ApiContactRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -84,33 +112,44 @@ export interface FileRoutesByTo {
   '/learning': typeof LearningRoute
   '/marketplaces': typeof MarketplacesRoute
   '/services': typeof ServicesRoute
+  '/admin/leads': typeof AdminLeadsRoute
+  '/admin/services': typeof AdminServicesRoute
   '/api/admin': typeof ApiAdminRoute
   '/api/contact': typeof ApiContactRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/amazon': typeof AmazonRoute
   '/contact': typeof ContactRoute
   '/learning': typeof LearningRoute
   '/marketplaces': typeof MarketplacesRoute
   '/services': typeof ServicesRoute
+  '/admin/leads': typeof AdminLeadsRoute
+  '/admin/services': typeof AdminServicesRoute
   '/api/admin': typeof ApiAdminRoute
   '/api/contact': typeof ApiContactRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/about'
+    | '/admin'
     | '/amazon'
     | '/contact'
     | '/learning'
     | '/marketplaces'
     | '/services'
+    | '/admin/leads'
+    | '/admin/services'
     | '/api/admin'
     | '/api/contact'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -120,24 +159,32 @@ export interface FileRouteTypes {
     | '/learning'
     | '/marketplaces'
     | '/services'
+    | '/admin/leads'
+    | '/admin/services'
     | '/api/admin'
     | '/api/contact'
+    | '/admin'
   id:
     | '__root__'
     | '/'
     | '/about'
+    | '/admin'
     | '/amazon'
     | '/contact'
     | '/learning'
     | '/marketplaces'
     | '/services'
+    | '/admin/leads'
+    | '/admin/services'
     | '/api/admin'
     | '/api/contact'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   AmazonRoute: typeof AmazonRoute
   ContactRoute: typeof ContactRoute
   LearningRoute: typeof LearningRoute
@@ -184,6 +231,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AmazonRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -197,6 +251,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/api/contact': {
       id: '/api/contact'
@@ -212,12 +273,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/services': {
+      id: '/admin/services'
+      path: '/services'
+      fullPath: '/admin/services'
+      preLoaderRoute: typeof AdminServicesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/leads': {
+      id: '/admin/leads'
+      path: '/leads'
+      fullPath: '/admin/leads'
+      preLoaderRoute: typeof AdminLeadsRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
+
+interface AdminRouteChildren {
+  AdminLeadsRoute: typeof AdminLeadsRoute
+  AdminServicesRoute: typeof AdminServicesRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminLeadsRoute: AdminLeadsRoute,
+  AdminServicesRoute: AdminServicesRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   AmazonRoute: AmazonRoute,
   ContactRoute: ContactRoute,
   LearningRoute: LearningRoute,
