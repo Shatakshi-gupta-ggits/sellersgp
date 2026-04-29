@@ -9,38 +9,188 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ServicesRouteImport } from './routes/services'
+import { Route as MarketplacesRouteImport } from './routes/marketplaces'
+import { Route as LearningRouteImport } from './routes/learning'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AmazonRouteImport } from './routes/amazon'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiContactRouteImport } from './routes/api.contact'
+import { Route as ApiAdminRouteImport } from './routes/api.admin'
 
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketplacesRoute = MarketplacesRouteImport.update({
+  id: '/marketplaces',
+  path: '/marketplaces',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearningRoute = LearningRouteImport.update({
+  id: '/learning',
+  path: '/learning',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AmazonRoute = AmazonRouteImport.update({
+  id: '/amazon',
+  path: '/amazon',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiContactRoute = ApiContactRouteImport.update({
+  id: '/api/contact',
+  path: '/api/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminRoute = ApiAdminRouteImport.update({
+  id: '/api/admin',
+  path: '/api/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/amazon': typeof AmazonRoute
+  '/contact': typeof ContactRoute
+  '/learning': typeof LearningRoute
+  '/marketplaces': typeof MarketplacesRoute
+  '/services': typeof ServicesRoute
+  '/api/admin': typeof ApiAdminRoute
+  '/api/contact': typeof ApiContactRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/amazon': typeof AmazonRoute
+  '/contact': typeof ContactRoute
+  '/learning': typeof LearningRoute
+  '/marketplaces': typeof MarketplacesRoute
+  '/services': typeof ServicesRoute
+  '/api/admin': typeof ApiAdminRoute
+  '/api/contact': typeof ApiContactRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/amazon': typeof AmazonRoute
+  '/contact': typeof ContactRoute
+  '/learning': typeof LearningRoute
+  '/marketplaces': typeof MarketplacesRoute
+  '/services': typeof ServicesRoute
+  '/api/admin': typeof ApiAdminRoute
+  '/api/contact': typeof ApiContactRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/amazon'
+    | '/contact'
+    | '/learning'
+    | '/marketplaces'
+    | '/services'
+    | '/api/admin'
+    | '/api/contact'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/amazon'
+    | '/contact'
+    | '/learning'
+    | '/marketplaces'
+    | '/services'
+    | '/api/admin'
+    | '/api/contact'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/amazon'
+    | '/contact'
+    | '/learning'
+    | '/marketplaces'
+    | '/services'
+    | '/api/admin'
+    | '/api/contact'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  AmazonRoute: typeof AmazonRoute
+  ContactRoute: typeof ContactRoute
+  LearningRoute: typeof LearningRoute
+  MarketplacesRoute: typeof MarketplacesRoute
+  ServicesRoute: typeof ServicesRoute
+  ApiAdminRoute: typeof ApiAdminRoute
+  ApiContactRoute: typeof ApiContactRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/marketplaces': {
+      id: '/marketplaces'
+      path: '/marketplaces'
+      fullPath: '/marketplaces'
+      preLoaderRoute: typeof MarketplacesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learning': {
+      id: '/learning'
+      path: '/learning'
+      fullPath: '/learning'
+      preLoaderRoute: typeof LearningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/amazon': {
+      id: '/amazon'
+      path: '/amazon'
+      fullPath: '/amazon'
+      preLoaderRoute: typeof AmazonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +198,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/contact': {
+      id: '/api/contact'
+      path: '/api/contact'
+      fullPath: '/api/contact'
+      preLoaderRoute: typeof ApiContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/admin': {
+      id: '/api/admin'
+      path: '/api/admin'
+      fullPath: '/api/admin'
+      preLoaderRoute: typeof ApiAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  AmazonRoute: AmazonRoute,
+  ContactRoute: ContactRoute,
+  LearningRoute: LearningRoute,
+  MarketplacesRoute: MarketplacesRoute,
+  ServicesRoute: ServicesRoute,
+  ApiAdminRoute: ApiAdminRoute,
+  ApiContactRoute: ApiContactRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
