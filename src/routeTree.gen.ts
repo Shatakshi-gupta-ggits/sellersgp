@@ -9,25 +9,53 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as EditorRouteImport } from './routes/editor'
-import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ServicesRouteImport } from './routes/services'
+import { Route as MarketplacesRouteImport } from './routes/marketplaces'
+import { Route as LearningRouteImport } from './routes/learning'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AmazonRouteImport } from './routes/amazon'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ApiEnhancePostRouteImport } from './routes/api.enhance-post'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as ApiContactRouteImport } from './routes/api.contact'
+import { Route as ApiAdminRouteImport } from './routes/api.admin'
+import { Route as AdminServicesRouteImport } from './routes/admin.services'
+import { Route as AdminLeadsRouteImport } from './routes/admin.leads'
 
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
-const EditorRoute = EditorRouteImport.update({
-  id: '/editor',
-  path: '/editor',
+const MarketplacesRoute = MarketplacesRouteImport.update({
+  id: '/marketplaces',
+  path: '/marketplaces',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const LearningRoute = LearningRouteImport.update({
+  id: '/learning',
+  path: '/learning',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AmazonRoute = AmazonRouteImport.update({
+  id: '/amazon',
+  path: '/amazon',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -35,77 +63,186 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiEnhancePostRoute = ApiEnhancePostRouteImport.update({
-  id: '/api/enhance-post',
-  path: '/api/enhance-post',
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const ApiContactRoute = ApiContactRouteImport.update({
+  id: '/api/contact',
+  path: '/api/contact',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAdminRoute = ApiAdminRouteImport.update({
+  id: '/api/admin',
+  path: '/api/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminServicesRoute = AdminServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLeadsRoute = AdminLeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => AdminRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/editor': typeof EditorRoute
-  '/login': typeof LoginRoute
-  '/api/enhance-post': typeof ApiEnhancePostRoute
+  '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/amazon': typeof AmazonRoute
+  '/contact': typeof ContactRoute
+  '/learning': typeof LearningRoute
+  '/marketplaces': typeof MarketplacesRoute
+  '/services': typeof ServicesRoute
+  '/admin/leads': typeof AdminLeadsRoute
+  '/admin/services': typeof AdminServicesRoute
+  '/api/admin': typeof ApiAdminRoute
+  '/api/contact': typeof ApiContactRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/editor': typeof EditorRoute
-  '/login': typeof LoginRoute
-  '/api/enhance-post': typeof ApiEnhancePostRoute
+  '/about': typeof AboutRoute
+  '/amazon': typeof AmazonRoute
+  '/contact': typeof ContactRoute
+  '/learning': typeof LearningRoute
+  '/marketplaces': typeof MarketplacesRoute
+  '/services': typeof ServicesRoute
+  '/admin/leads': typeof AdminLeadsRoute
+  '/admin/services': typeof AdminServicesRoute
+  '/api/admin': typeof ApiAdminRoute
+  '/api/contact': typeof ApiContactRoute
+  '/admin': typeof AdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/editor': typeof EditorRoute
-  '/login': typeof LoginRoute
-  '/api/enhance-post': typeof ApiEnhancePostRoute
+  '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/amazon': typeof AmazonRoute
+  '/contact': typeof ContactRoute
+  '/learning': typeof LearningRoute
+  '/marketplaces': typeof MarketplacesRoute
+  '/services': typeof ServicesRoute
+  '/admin/leads': typeof AdminLeadsRoute
+  '/admin/services': typeof AdminServicesRoute
+  '/api/admin': typeof ApiAdminRoute
+  '/api/contact': typeof ApiContactRoute
+  '/admin/': typeof AdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/editor' | '/login' | '/api/enhance-post'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/admin'
+    | '/amazon'
+    | '/contact'
+    | '/learning'
+    | '/marketplaces'
+    | '/services'
+    | '/admin/leads'
+    | '/admin/services'
+    | '/api/admin'
+    | '/api/contact'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/editor' | '/login' | '/api/enhance-post'
+  to:
+    | '/'
+    | '/about'
+    | '/amazon'
+    | '/contact'
+    | '/learning'
+    | '/marketplaces'
+    | '/services'
+    | '/admin/leads'
+    | '/admin/services'
+    | '/api/admin'
+    | '/api/contact'
+    | '/admin'
   id:
     | '__root__'
     | '/'
-    | '/dashboard'
-    | '/editor'
-    | '/login'
-    | '/api/enhance-post'
+    | '/about'
+    | '/admin'
+    | '/amazon'
+    | '/contact'
+    | '/learning'
+    | '/marketplaces'
+    | '/services'
+    | '/admin/leads'
+    | '/admin/services'
+    | '/api/admin'
+    | '/api/contact'
+    | '/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRoute
-  EditorRoute: typeof EditorRoute
-  LoginRoute: typeof LoginRoute
-  ApiEnhancePostRoute: typeof ApiEnhancePostRoute
+  AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  AmazonRoute: typeof AmazonRoute
+  ContactRoute: typeof ContactRoute
+  LearningRoute: typeof LearningRoute
+  MarketplacesRoute: typeof MarketplacesRoute
+  ServicesRoute: typeof ServicesRoute
+  ApiAdminRoute: typeof ApiAdminRoute
+  ApiContactRoute: typeof ApiContactRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/editor': {
-      id: '/editor'
-      path: '/editor'
-      fullPath: '/editor'
-      preLoaderRoute: typeof EditorRouteImport
+    '/marketplaces': {
+      id: '/marketplaces'
+      path: '/marketplaces'
+      fullPath: '/marketplaces'
+      preLoaderRoute: typeof MarketplacesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
+    '/learning': {
+      id: '/learning'
+      path: '/learning'
+      fullPath: '/learning'
+      preLoaderRoute: typeof LearningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/amazon': {
+      id: '/amazon'
+      path: '/amazon'
+      fullPath: '/amazon'
+      preLoaderRoute: typeof AmazonRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -115,22 +252,69 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/enhance-post': {
-      id: '/api/enhance-post'
-      path: '/api/enhance-post'
-      fullPath: '/api/enhance-post'
-      preLoaderRoute: typeof ApiEnhancePostRouteImport
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/api/contact': {
+      id: '/api/contact'
+      path: '/api/contact'
+      fullPath: '/api/contact'
+      preLoaderRoute: typeof ApiContactRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/api/admin': {
+      id: '/api/admin'
+      path: '/api/admin'
+      fullPath: '/api/admin'
+      preLoaderRoute: typeof ApiAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/services': {
+      id: '/admin/services'
+      path: '/services'
+      fullPath: '/admin/services'
+      preLoaderRoute: typeof AdminServicesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/leads': {
+      id: '/admin/leads'
+      path: '/leads'
+      fullPath: '/admin/leads'
+      preLoaderRoute: typeof AdminLeadsRouteImport
+      parentRoute: typeof AdminRoute
     }
   }
 }
 
+interface AdminRouteChildren {
+  AdminLeadsRoute: typeof AdminLeadsRoute
+  AdminServicesRoute: typeof AdminServicesRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminLeadsRoute: AdminLeadsRoute,
+  AdminServicesRoute: AdminServicesRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRoute,
-  EditorRoute: EditorRoute,
-  LoginRoute: LoginRoute,
-  ApiEnhancePostRoute: ApiEnhancePostRoute,
+  AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
+  AmazonRoute: AmazonRoute,
+  ContactRoute: ContactRoute,
+  LearningRoute: LearningRoute,
+  MarketplacesRoute: MarketplacesRoute,
+  ServicesRoute: ServicesRoute,
+  ApiAdminRoute: ApiAdminRoute,
+  ApiContactRoute: ApiContactRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
