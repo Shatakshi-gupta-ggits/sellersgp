@@ -13,7 +13,6 @@ import { Route as ServicesRouteImport } from './routes/services'
 import { Route as MarketplacesRouteImport } from './routes/marketplaces'
 import { Route as LearningRouteImport } from './routes/learning'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as AmazonRouteImport } from './routes/amazon'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -41,11 +40,6 @@ const LearningRoute = LearningRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AmazonRoute = AmazonRouteImport.update({
-  id: '/amazon',
-  path: '/amazon',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -93,7 +87,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
-  '/amazon': typeof AmazonRoute
   '/contact': typeof ContactRoute
   '/learning': typeof LearningRoute
   '/marketplaces': typeof MarketplacesRoute
@@ -107,7 +100,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/amazon': typeof AmazonRoute
   '/contact': typeof ContactRoute
   '/learning': typeof LearningRoute
   '/marketplaces': typeof MarketplacesRoute
@@ -123,7 +115,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admin': typeof AdminRouteWithChildren
-  '/amazon': typeof AmazonRoute
   '/contact': typeof ContactRoute
   '/learning': typeof LearningRoute
   '/marketplaces': typeof MarketplacesRoute
@@ -140,7 +131,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
-    | '/amazon'
     | '/contact'
     | '/learning'
     | '/marketplaces'
@@ -154,7 +144,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
-    | '/amazon'
     | '/contact'
     | '/learning'
     | '/marketplaces'
@@ -169,7 +158,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admin'
-    | '/amazon'
     | '/contact'
     | '/learning'
     | '/marketplaces'
@@ -185,7 +173,6 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AdminRoute: typeof AdminRouteWithChildren
-  AmazonRoute: typeof AmazonRoute
   ContactRoute: typeof ContactRoute
   LearningRoute: typeof LearningRoute
   MarketplacesRoute: typeof MarketplacesRoute
@@ -222,13 +209,6 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/amazon': {
-      id: '/amazon'
-      path: '/amazon'
-      fullPath: '/amazon'
-      preLoaderRoute: typeof AmazonRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -308,7 +288,6 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdminRoute: AdminRouteWithChildren,
-  AmazonRoute: AmazonRoute,
   ContactRoute: ContactRoute,
   LearningRoute: LearningRoute,
   MarketplacesRoute: MarketplacesRoute,

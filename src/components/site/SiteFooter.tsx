@@ -24,8 +24,7 @@ export function SiteFooter() {
           <ul className="space-y-2 text-sm text-primary-foreground/75">
             <li><Link to="/about" className="hover:text-[color:var(--gold)]">About</Link></li>
             <li><Link to="/services" className="hover:text-[color:var(--gold)]">Services</Link></li>
-            <li><Link to="/marketplaces" className="hover:text-[color:var(--gold)]">Marketplaces</Link></li>
-            <li><Link to="/amazon" className="hover:text-[color:var(--gold)]">Amazon Framework</Link></li>
+            <li><Link to="/marketplaces" className="hover:text-[color:var(--gold)]">E-commerce</Link></li>
             <li><Link to="/learning" className="hover:text-[color:var(--gold)]">Learning Programs</Link></li>
           </ul>
         </div>
