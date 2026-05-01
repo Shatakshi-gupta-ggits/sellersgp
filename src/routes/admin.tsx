@@ -1,6 +1,7 @@
 import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, Users, Wrench, ArrowLeft } from "lucide-react";
+import { LayoutDashboard, Users, Wrench, ArrowLeft, Lock } from "lucide-react";
 import logo from "@/assets/logo.png";
+import { useState, useEffect } from "react";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -20,6 +21,72 @@ const NAV: Array<{ to: "/admin" | "/admin/leads" | "/admin/services"; label: str
 
 function AdminLayout() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const auth = localStorage.getItem("admin_auth");
+    if (auth === "Shatakshi9499") {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, []);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === "Shatakshi9499") {
+      localStorage.setItem("admin_auth", password);
+      setIsAuthenticated(true);
+      setError("");
+    } else {
+      setError("Incorrect password");
+    }
+  };
+
+  if (isAuthenticated === null) return null; // loading state
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-secondary/30 p-4">
+        <div className="w-full max-w-sm bg-card border border-border rounded-2xl p-6 shadow-sm">
+          <div className="flex flex-col items-center mb-6">
+            <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+              <Lock className="h-6 w-6 text-primary" />
+            </div>
+            <h1 className="text-xl font-semibold">Admin Access</h1>
+            <p className="text-sm text-muted-foreground text-center mt-1">
+              Enter the admin password to access the dashboard.
+            </p>
+          </div>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                className="w-full px-3 py-2.5 border border-border rounded-lg bg-background text-sm focus:outline-none focus:ring-2 focus:ring-accent"
+              />
+              {error && <p className="text-sm text-destructive mt-1.5">{error}</p>}
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-accent text-accent-foreground py-2.5 rounded-lg font-medium text-sm hover:opacity-90 transition shadow-sm"
+            >
+              Sign In
+            </button>
+          </form>
+          <div className="mt-6 text-center">
+            <Link to="/" className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1">
+              <ArrowLeft className="h-3 w-3" /> Back to website
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex bg-secondary/30">

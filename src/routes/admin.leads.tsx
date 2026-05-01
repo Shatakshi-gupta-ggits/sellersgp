@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Trash2, Mail, Phone } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabase";
 
 export const Route = createFileRoute("/admin/leads")({
   component: AdminLeads,
@@ -20,38 +21,37 @@ function AdminLeads() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const load = () => {
+  const load = async () => {
     setLoading(true);
-    fetch("/api/admin?resource=leads")
-      .then((r) => r.json())
-      .then((d) => setLeads(d.leads))
-      .finally(() => setLoading(false));
+    const { data, error } = await supabase.from('leads').select('*').order('created_at', { ascending: false });
+    if (!error && data) {
+      // Map created_at from Supabase to createdAt expected by UI
+      const mapped = data.map(d => ({ ...d, createdAt: d.created_at }));
+      setLeads(mapped);
+    }
+    setLoading(false);
   };
 
-  useEffect(load, []);
+  useEffect(() => { load(); }, []);
 
   const updateStatus = async (id: string, status: Lead["status"]) => {
-    const res = await fetch("/api/admin", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "updateLeadStatus", id, status }),
-    });
-    if (res.ok) {
+    const { error } = await supabase.from('leads').update({ status }).eq('id', id);
+    if (!error) {
       setLeads((ls) => ls.map((l) => (l.id === id ? { ...l, status } : l)));
       toast.success(`Marked as ${status}`);
+    } else {
+      toast.error("Failed to update status");
     }
   };
 
   const remove = async (id: string) => {
     if (!confirm("Delete this lead?")) return;
-    const res = await fetch("/api/admin", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "deleteLead", id }),
-    });
-    if (res.ok) {
+    const { error } = await supabase.from('leads').delete().eq('id', id);
+    if (!error) {
       setLeads((ls) => ls.filter((l) => l.id !== id));
       toast.success("Lead deleted");
+    } else {
+      toast.error("Failed to delete lead");
     }
   };
 

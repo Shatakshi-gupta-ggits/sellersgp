@@ -4,6 +4,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/SectionHeader";
 import { Phone, Mail, Globe, MapPin, Send, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabase";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -27,16 +28,23 @@ function ContactPage() {
     const payload = Object.fromEntries(fd.entries());
     setSubmitting(true);
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) throw new Error("Failed");
+      const { error } = await supabase.from('leads').insert([{
+        name: payload.name,
+        phone: payload.phone,
+        email: payload.email,
+        business: payload.business,
+        service: payload.service,
+        message: payload.message,
+        status: 'new'
+      }]);
+      
+      if (error) throw error;
+      
       toast.success("Thanks! We'll be in touch within 24 hours.");
       form.reset();
-    } catch {
-      toast.error("Something went wrong. Please try again or call us directly.");
+    } catch (err: any) {
+      console.error("Supabase insert error:", err);
+      toast.error("Something went wrong. " + (err?.message || "Please try again or call us directly."));
     } finally {
       setSubmitting(false);
     }

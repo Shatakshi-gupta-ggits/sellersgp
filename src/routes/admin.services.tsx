@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { supabase } from "@/lib/supabase";
 
 export const Route = createFileRoute("/admin/services")({
   component: AdminServices,
@@ -13,22 +14,27 @@ function AdminServices() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/admin?resource=services")
-      .then((r) => r.json())
-      .then((d) => setServices(d.services))
-      .finally(() => setLoading(false));
+    supabase.from('services').select('*').order('created_at', { ascending: true })
+      .then(({ data, error }) => {
+        if (!error && data) {
+          setServices(data.map(d => ({ ...d, createdAt: d.created_at })));
+        }
+        setLoading(false);
+      });
   }, []);
 
   const toggle = async (id: string) => {
-    const res = await fetch("/api/admin", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "toggleService", id }),
-    });
-    if (res.ok) {
-      const data = await res.json();
-      setServices((s) => s.map((x) => (x.id === id ? data.service : x)));
-      toast.success(data.service.active ? "Service activated" : "Service paused");
+    const service = services.find(s => s.id === id);
+    if (!service) return;
+    
+    const newStatus = !service.active;
+    const { error } = await supabase.from('services').update({ active: newStatus }).eq('id', id);
+    
+    if (!error) {
+      setServices((s) => s.map((x) => (x.id === id ? { ...x, active: newStatus } : x)));
+      toast.success(newStatus ? "Service activated" : "Service paused");
+    } else {
+      toast.error("Failed to update service");
     }
   };
 

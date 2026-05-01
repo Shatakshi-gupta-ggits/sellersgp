@@ -168,12 +168,6 @@ export default defineConfig(({ command, mode }) => {
     server: {
       host: "::",
       port: 8080,
-      proxy: {
-        "/api": {
-          target: "http://localhost:5000",
-          changeOrigin: true,
-        },
-      },
     },
     resolve: {
       alias: {

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Users, UserCheck, Trophy, XCircle, Wrench, TrendingUp } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminOverview,
@@ -15,12 +16,44 @@ function AdminOverview() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetch("/api/admin?resource=stats")
-      .then((r) => r.json())
-      .then((d) => setStats(d.stats))
-      .finally(() => setLoading(false));
-  }, []);
+  const loadStats = async () => {
+    setLoading(true);
+    try {
+      const [
+        { count: totalLeads },
+        { count: newLeads },
+        { count: contacted },
+        { count: won },
+        { count: lost },
+        { count: totalServices },
+        { count: activeServices },
+      ] = await Promise.all([
+        supabase.from('leads').select('*', { count: 'exact', head: true }),
+        supabase.from('leads').select('*', { count: 'exact', head: true }).eq('status', 'new'),
+        supabase.from('leads').select('*', { count: 'exact', head: true }).eq('status', 'contacted'),
+        supabase.from('leads').select('*', { count: 'exact', head: true }).eq('status', 'won'),
+        supabase.from('leads').select('*', { count: 'exact', head: true }).eq('status', 'lost'),
+        supabase.from('services').select('*', { count: 'exact', head: true }),
+        supabase.from('services').select('*', { count: 'exact', head: true }).eq('active', true),
+      ]);
+
+      setStats({
+        totalLeads: totalLeads || 0,
+        newLeads: newLeads || 0,
+        contacted: contacted || 0,
+        won: won || 0,
+        lost: lost || 0,
+        totalServices: totalServices || 0,
+        activeServices: activeServices || 0,
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => { loadStats(); }, []);
 
   return (
     <div className="max-w-6xl mx-auto">
