@@ -36,8 +36,8 @@ export function PageHero({
   description?: ReactNode;
 }) {
   return (
-    <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-secondary/60 to-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 text-center">
+    <section className="relative overflow-hidden border-b border-border bg-gradient-to-b from-secondary/40 to-background">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 text-center">
         {eyebrow && (
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">{eyebrow}</p>
         )}
