@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Phone, ArrowRight } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const NAV = [
@@ -17,77 +17,125 @@ export function SiteNavbar() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 4);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <header className={`sticky top-0 z-50 transition-all ${scrolled ? "bg-background/85 backdrop-blur border-b border-border" : "bg-transparent"}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2.5 group">
-          <img src={logo} alt="Sellers Growth Point logo" className="h-9 w-9 rounded-full object-cover ring-1 ring-border" />
-          <div className="leading-tight">
-            <div className="font-display text-base font-semibold tracking-tight">Sellers Growth Point</div>
-            <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">by CLUTCHNEXXT</div>
+    <>
+      {/* Top utility strip */}
+      <div className="hidden md:block bg-primary text-primary-foreground text-xs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-9 flex items-center justify-between">
+          <p className="opacity-80">
+            <span className="text-[color:var(--gold)] font-semibold">No Sales, No Commission</span> — risk-free e-commerce growth partner.
+          </p>
+          <div className="flex items-center gap-5 opacity-90">
+            <a href="tel:+918269454968" className="inline-flex items-center gap-1.5 hover:text-[color:var(--gold)]">
+              <Phone className="h-3.5 w-3.5" /> +91 8269454968
+            </a>
+            <a href="mailto:sellersgrowthpoint@gmail.com" className="hover:text-[color:var(--gold)]">
+              sellersgrowthpoint@gmail.com
+            </a>
           </div>
-        </Link>
-
-        <nav className="hidden lg:flex items-center gap-1">
-          {NAV.map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              className="px-3 py-2 text-sm font-medium text-foreground/75 hover:text-foreground rounded-md transition"
-              activeProps={{ className: "px-3 py-2 text-sm font-semibold text-accent rounded-md" }}
-              activeOptions={{ exact: item.to === "/" }}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="hidden lg:flex items-center gap-3">
-          <Link to="/contact" className="inline-flex items-center rounded-full bg-accent text-accent-foreground px-5 py-2 text-sm font-semibold hover:opacity-90 transition shadow-sm">
-            Book a Call
-          </Link>
         </div>
-
-        <button
-          onClick={() => setOpen((o) => !o)}
-          className="lg:hidden p-2 rounded-md hover:bg-muted"
-          aria-label="Toggle menu"
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
       </div>
 
-      {open && (
-        <div className="lg:hidden border-t border-border bg-background">
-          <nav className="px-4 py-3 flex flex-col">
+      <header
+        className={`sticky top-0 z-50 transition-all ${
+          scrolled
+            ? "bg-background/95 backdrop-blur shadow-[0_1px_0_0_var(--border)]"
+            : "bg-background border-b border-border"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 lg:h-[72px] flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-2.5 group">
+            <img
+              src={logo}
+              alt="Sellers Growth Point logo"
+              className="h-9 w-9 rounded-md object-cover ring-1 ring-border"
+            />
+            <div className="leading-tight">
+              <div className="font-display text-base font-semibold tracking-tight">
+                Sellers Growth Point
+              </div>
+              <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                by CLUTCHNEXXT
+              </div>
+            </div>
+          </Link>
+
+          <nav className="hidden lg:flex items-center gap-0.5">
             {NAV.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
-                onClick={() => setOpen(false)}
-                className="py-2.5 text-sm font-medium text-foreground/80"
-                activeProps={{ className: "py-2.5 text-sm font-semibold text-accent" }}
+                className="relative px-3.5 py-2 text-[13.5px] font-medium text-foreground/70 hover:text-foreground transition"
+                activeProps={{
+                  className:
+                    "relative px-3.5 py-2 text-[13.5px] font-semibold text-foreground after:content-[''] after:absolute after:left-3.5 after:right-3.5 after:-bottom-[22px] after:h-[2px] after:bg-accent",
+                }}
                 activeOptions={{ exact: item.to === "/" }}
               >
                 {item.label}
               </Link>
             ))}
+          </nav>
+
+          <div className="hidden lg:flex items-center gap-3">
+            <a
+              href="tel:+918269454968"
+              className="text-sm font-semibold text-foreground/80 hover:text-accent"
+            >
+              +91 8269454968
+            </a>
             <Link
               to="/contact"
-              onClick={() => setOpen(false)}
-              className="mt-2 inline-flex justify-center rounded-full bg-accent text-accent-foreground px-5 py-2.5 text-sm font-semibold"
+              className="inline-flex items-center gap-1.5 rounded-md bg-accent text-accent-foreground px-4 py-2.5 text-sm font-semibold hover:opacity-90 transition shadow-sm"
             >
-              Book a Call
+              Book a Call <ArrowRight className="h-4 w-4" />
             </Link>
-          </nav>
+          </div>
+
+          <button
+            onClick={() => setOpen((o) => !o)}
+            className="lg:hidden p-2 rounded-md hover:bg-muted"
+            aria-label="Toggle menu"
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
-      )}
-    </header>
+
+        {open && (
+          <div className="lg:hidden border-t border-border bg-background">
+            <nav className="px-4 py-3 flex flex-col">
+              {NAV.map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  onClick={() => setOpen(false)}
+                  className="py-2.5 text-sm font-medium text-foreground/80 border-b border-border/60 last:border-0"
+                  activeProps={{
+                    className:
+                      "py-2.5 text-sm font-semibold text-accent border-b border-border/60 last:border-0",
+                  }}
+                  activeOptions={{ exact: item.to === "/" }}
+                >
+                  {item.label}
+                </Link>
+              ))}
+              <Link
+                to="/contact"
+                onClick={() => setOpen(false)}
+                className="mt-3 inline-flex justify-center items-center gap-1.5 rounded-md bg-accent text-accent-foreground px-5 py-3 text-sm font-semibold"
+              >
+                Book a Call <ArrowRight className="h-4 w-4" />
+              </Link>
+            </nav>
+          </div>
+        )}
+      </header>
+    </>
   );
 }
