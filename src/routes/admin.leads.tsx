@@ -2,18 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Trash2, Mail, Phone } from "lucide-react";
 import { toast } from "sonner";
-import { supabase } from "@/lib/supabase";
+import { deleteLead, listLeads, updateLeadStatus, type Lead } from "@/server/dummy-store";
 
 export const Route = createFileRoute("/admin/leads")({
   component: AdminLeads,
 });
-
-type Lead = {
-  id: string; name: string; phone: string; email: string;
-  business?: string; service?: string; message?: string;
-  status: "new" | "contacted" | "won" | "lost";
-  createdAt: string;
-};
 
 const STATUSES: Lead["status"][] = ["new", "contacted", "won", "lost"];
 
@@ -23,20 +16,15 @@ function AdminLeads() {
 
   const load = async () => {
     setLoading(true);
-    const { data, error } = await supabase.from('leads').select('*').order('created_at', { ascending: false });
-    if (!error && data) {
-      // Map created_at from Supabase to createdAt expected by UI
-      const mapped = data.map(d => ({ ...d, createdAt: d.created_at }));
-      setLeads(mapped);
-    }
+    setLeads(listLeads());
     setLoading(false);
   };
 
   useEffect(() => { load(); }, []);
 
   const updateStatus = async (id: string, status: Lead["status"]) => {
-    const { error } = await supabase.from('leads').update({ status }).eq('id', id);
-    if (!error) {
+    const updated = updateLeadStatus(id, status);
+    if (updated) {
       setLeads((ls) => ls.map((l) => (l.id === id ? { ...l, status } : l)));
       toast.success(`Marked as ${status}`);
     } else {
@@ -46,8 +34,7 @@ function AdminLeads() {
 
   const remove = async (id: string) => {
     if (!confirm("Delete this lead?")) return;
-    const { error } = await supabase.from('leads').delete().eq('id', id);
-    if (!error) {
+    if (deleteLead(id)) {
       setLeads((ls) => ls.filter((l) => l.id !== id));
       toast.success("Lead deleted");
     } else {
