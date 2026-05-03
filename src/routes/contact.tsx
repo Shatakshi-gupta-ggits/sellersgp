@@ -73,7 +73,7 @@ function ContactPage() {
                   <span className="h-9 w-9 rounded-lg bg-accent/10 text-accent flex items-center justify-center flex-none"><Mail className="h-4 w-4" /></span>
                   <div>
                     <p className="text-muted-foreground">Email</p>
-                    <a href="mailto:sellersgrowthpoint@gmail.com" className="font-medium hover:text-accent break-all">sellersgrowthpoint@gmail.com</a>
+                    <a href="mailto:info.sellersgrowthpoint@gmail.com" className="font-medium hover:text-accent break-all">info.sellersgrowthpoint@gmail.com</a>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">

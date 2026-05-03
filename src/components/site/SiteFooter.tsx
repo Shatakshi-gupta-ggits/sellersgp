@@ -74,8 +74,8 @@ export function SiteFooter() {
             </li>
             <li className="flex items-start gap-2.5">
               <Mail className="h-4 w-4 mt-0.5 text-[color:var(--gold)]" />
-              <a href="mailto:sellersgrowthpoint@gmail.com" className="hover:text-[color:var(--gold)] break-all">
-                sellersgrowthpoint@gmail.com
+              <a href="mailto:info.sellersgrowthpoint@gmail.com" className="hover:text-[color:var(--gold)] break-all">
+                info.sellersgrowthpoint@gmail.com
               </a>
             </li>
             <li className="flex items-start gap-2.5">
