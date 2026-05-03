@@ -35,8 +35,8 @@ export function SiteNavbar() {
             <a href="tel:+918269454968" className="inline-flex items-center gap-1.5 hover:text-[color:var(--gold)]">
               <Phone className="h-3.5 w-3.5" /> +91 8269454968
             </a>
-            <a href="mailto:sellersgrowthpoint@gmail.com" className="hover:text-[color:var(--gold)]">
-              sellersgrowthpoint@gmail.com
+            <a href="mailto:info.sellersgrowthpoint@gmail.com" className="hover:text-[color:var(--gold)]">
+              info.sellersgrowthpoint@gmail.com
             </a>
           </div>
         </div>
