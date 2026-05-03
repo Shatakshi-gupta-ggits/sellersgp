@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import type { ComponentType } from "react";
 import { Users, UserCheck, Trophy, XCircle, Wrench, TrendingUp } from "lucide-react";
 import { getStats } from "@/server/dummy-store";
 
@@ -52,7 +53,7 @@ function AdminOverview() {
   );
 }
 
-function Stat({ title, value, icon: Icon, loading, accent }: { title: string; value?: number; icon: React.ComponentType<{ className?: string }>; loading: boolean; accent?: boolean }) {
+function Stat({ title, value, icon: Icon, loading, accent }: { title: string; value?: number; icon: ComponentType<{ className?: string }>; loading: boolean; accent?: boolean }) {
   return (
     <div className={`rounded-2xl border p-5 ${accent ? "border-accent/30 bg-accent/5" : "border-border bg-card"}`}>
       <div className="flex items-center justify-between">
