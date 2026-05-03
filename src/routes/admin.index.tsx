@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import type { ComponentType } from "react";
 import { Users, UserCheck, Trophy, XCircle, Wrench, TrendingUp } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { getStats } from "@/server/dummy-store";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminOverview,
@@ -13,47 +13,7 @@ type Stats = {
 };
 
 function AdminOverview() {
-  const [stats, setStats] = useState<Stats | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const loadStats = async () => {
-    setLoading(true);
-    try {
-      const [
-        { count: totalLeads },
-        { count: newLeads },
-        { count: contacted },
-        { count: won },
-        { count: lost },
-        { count: totalServices },
-        { count: activeServices },
-      ] = await Promise.all([
-        supabase.from('leads').select('*', { count: 'exact', head: true }),
-        supabase.from('leads').select('*', { count: 'exact', head: true }).eq('status', 'new'),
-        supabase.from('leads').select('*', { count: 'exact', head: true }).eq('status', 'contacted'),
-        supabase.from('leads').select('*', { count: 'exact', head: true }).eq('status', 'won'),
-        supabase.from('leads').select('*', { count: 'exact', head: true }).eq('status', 'lost'),
-        supabase.from('services').select('*', { count: 'exact', head: true }),
-        supabase.from('services').select('*', { count: 'exact', head: true }).eq('active', true),
-      ]);
-
-      setStats({
-        totalLeads: totalLeads || 0,
-        newLeads: newLeads || 0,
-        contacted: contacted || 0,
-        won: won || 0,
-        lost: lost || 0,
-        totalServices: totalServices || 0,
-        activeServices: activeServices || 0,
-      });
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => { loadStats(); }, []);
+  const stats: Stats = getStats();
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -64,15 +24,15 @@ function AdminOverview() {
       </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Stat title="Total Leads" value={stats?.totalLeads} icon={Users} loading={loading} />
-        <Stat title="New" value={stats?.newLeads} icon={TrendingUp} loading={loading} accent />
-        <Stat title="Contacted" value={stats?.contacted} icon={UserCheck} loading={loading} />
-        <Stat title="Won" value={stats?.won} icon={Trophy} loading={loading} />
+        <Stat title="Total Leads" value={stats.totalLeads} icon={Users} loading={false} />
+        <Stat title="New" value={stats.newLeads} icon={TrendingUp} loading={false} accent />
+        <Stat title="Contacted" value={stats.contacted} icon={UserCheck} loading={false} />
+        <Stat title="Won" value={stats.won} icon={Trophy} loading={false} />
       </div>
       <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Stat title="Lost" value={stats?.lost} icon={XCircle} loading={loading} />
-        <Stat title="Active Services" value={stats?.activeServices} icon={Wrench} loading={loading} />
-        <Stat title="Total Services" value={stats?.totalServices} icon={Wrench} loading={loading} />
+        <Stat title="Lost" value={stats.lost} icon={XCircle} loading={false} />
+        <Stat title="Active Services" value={stats.activeServices} icon={Wrench} loading={false} />
+        <Stat title="Total Services" value={stats.totalServices} icon={Wrench} loading={false} />
       </div>
 
       <div className="mt-10 rounded-2xl border border-border bg-card p-6">
@@ -93,7 +53,7 @@ function AdminOverview() {
   );
 }
 
-function Stat({ title, value, icon: Icon, loading, accent }: { title: string; value?: number; icon: React.ComponentType<{ className?: string }>; loading: boolean; accent?: boolean }) {
+function Stat({ title, value, icon: Icon, loading, accent }: { title: string; value?: number; icon: ComponentType<{ className?: string }>; loading: boolean; accent?: boolean }) {
   return (
     <div className={`rounded-2xl border p-5 ${accent ? "border-accent/30 bg-accent/5" : "border-border bg-card"}`}>
       <div className="flex items-center justify-between">

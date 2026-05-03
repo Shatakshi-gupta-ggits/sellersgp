@@ -178,11 +178,7 @@ export default defineConfig(({ command, mode }) => {
       }),
       devClientErrorLogger(),
       devServerFnErrorLogger(),
-      tanstackStart({
-        server: {
-          preset: "vercel"
-        }
-      }),
+      tanstackStart(),
       viteReact(),
     ].filter(Boolean),
   };
