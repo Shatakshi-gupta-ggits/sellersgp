@@ -178,11 +178,15 @@ export default defineConfig(({ command, mode }) => {
       }),
       devClientErrorLogger(),
       devServerFnErrorLogger(),
+<<<<<<< HEAD
       tanstackStart({
         server: {
           preset: "netlify"
         }
       }),
+=======
+      tanstackStart(),
+>>>>>>> 84cb20991fe8b445060641a2b20b7f9cbae8df37
       viteReact(),
     ].filter(Boolean),
   };

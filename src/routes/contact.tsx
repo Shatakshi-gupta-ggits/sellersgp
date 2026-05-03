@@ -4,7 +4,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/SectionHeader";
 import { Phone, Mail, Globe, MapPin, Send, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { supabase } from "@/lib/supabase";
+import { createLead } from "@/server/dummy-store";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -28,23 +28,20 @@ function ContactPage() {
     const payload = Object.fromEntries(fd.entries());
     setSubmitting(true);
     try {
-      const { error } = await supabase.from('leads').insert([{
-        name: payload.name,
-        phone: payload.phone,
-        email: payload.email,
-        business: payload.business,
-        service: payload.service,
-        message: payload.message,
-        status: 'new'
-      }]);
-      
-      if (error) throw error;
-      
+      createLead({
+        name: String(payload.name || ""),
+        phone: String(payload.phone || ""),
+        email: String(payload.email || ""),
+        business: String(payload.business || ""),
+        service: String(payload.service || ""),
+        message: String(payload.message || ""),
+      });
+
       toast.success("Thanks! We'll be in touch within 24 hours.");
       form.reset();
-    } catch (err: any) {
-      console.error("Supabase insert error:", err);
-      toast.error("Something went wrong. " + (err?.message || "Please try again or call us directly."));
+    } catch (err) {
+      console.error("Contact form error:", err);
+      toast.error("Something went wrong. Please try again or call us directly.");
     } finally {
       setSubmitting(false);
     }
@@ -76,7 +73,7 @@ function ContactPage() {
                   <span className="h-9 w-9 rounded-lg bg-accent/10 text-accent flex items-center justify-center flex-none"><Mail className="h-4 w-4" /></span>
                   <div>
                     <p className="text-muted-foreground">Email</p>
-                    <a href="mailto:sellersgrowthpoint@gmail.com" className="font-medium hover:text-accent break-all">sellersgrowthpoint@gmail.com</a>
+                    <a href="mailto:info.sellersgrowthpoint@gmail.com" className="font-medium hover:text-accent break-all">info.sellersgrowthpoint@gmail.com</a>
                   </div>
                 </li>
                 <li className="flex items-start gap-3">
