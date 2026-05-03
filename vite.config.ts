@@ -180,7 +180,7 @@ export default defineConfig(({ command, mode }) => {
       devServerFnErrorLogger(),
       tanstackStart({
         server: {
-          preset: "vercel"
+          preset: "netlify"
         }
       }),
       viteReact(),
