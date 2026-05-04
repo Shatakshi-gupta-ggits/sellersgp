@@ -179,13 +179,10 @@ export default defineConfig(({ command, mode }) => {
       devClientErrorLogger(),
       devServerFnErrorLogger(),
       tanstackStart({
-        spa: {
+        prerender: {
           enabled: true,
-          prerender: {
-            outputPath: "/index.html",
-            crawlLinks: false,
-            retryCount: 0,
-          },
+          crawlLinks: true,
+          autoSubfolderIndex: true,
         },
       }),
       viteReact(),
