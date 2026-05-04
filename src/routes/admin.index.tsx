@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import type { ComponentType } from "react";
 import { Users, UserCheck, Trophy, XCircle, Wrench, TrendingUp } from "lucide-react";
 import { getStats } from "@/server/dummy-store";
@@ -39,14 +39,14 @@ function AdminOverview() {
         <h3 className="font-display text-xl">Quick links</h3>
         <p className="text-sm text-muted-foreground mt-1">Use the sidebar to manage leads and services.</p>
         <div className="mt-4 grid sm:grid-cols-2 gap-3 text-sm">
-          <a href="/admin/leads" className="rounded-xl border border-border p-4 hover:border-accent/40 hover:bg-muted/40 transition">
+          <Link to="/admin/leads" className="rounded-xl border border-border p-4 hover:border-accent/40 hover:bg-muted/40 transition">
             <p className="font-semibold">Manage Leads →</p>
             <p className="text-muted-foreground mt-1">Review inquiries from the contact form.</p>
-          </a>
-          <a href="/admin/services" className="rounded-xl border border-border p-4 hover:border-accent/40 hover:bg-muted/40 transition">
+          </Link>
+          <Link to="/admin/services" className="rounded-xl border border-border p-4 hover:border-accent/40 hover:bg-muted/40 transition">
             <p className="font-semibold">Manage Services →</p>
             <p className="text-muted-foreground mt-1">Toggle which services are currently active.</p>
-          </a>
+          </Link>
         </div>
       </div>
     </div>
