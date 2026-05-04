@@ -178,7 +178,14 @@ export default defineConfig(({ command, mode }) => {
       }),
       devClientErrorLogger(),
       devServerFnErrorLogger(),
-      tanstackStart(),
+      tanstackStart({
+        spa: { enabled: true },
+        prerender: {
+          enabled: true,
+          crawlLinks: true,
+          autoSubfolderIndex: true,
+        },
+      }),
       viteReact(),
     ].filter(Boolean),
   };
