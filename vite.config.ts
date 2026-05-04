@@ -179,7 +179,6 @@ export default defineConfig(({ command, mode }) => {
       devClientErrorLogger(),
       devServerFnErrorLogger(),
       tanstackStart({
-        spa: { enabled: true },
         prerender: {
           enabled: true,
           crawlLinks: true,

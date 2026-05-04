@@ -19,33 +19,31 @@ const NAV: Array<{ to: "/admin" | "/admin/leads" | "/admin/services"; label: str
   { to: "/admin/services", label: "Services", icon: Wrench },
 ];
 
+const ADMIN_PASSWORD = "Sachinlodhi_1907@#";
+
 function AdminLayout() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const auth = localStorage.getItem("admin_auth");
-    if (auth === "Shatakshi9499") {
+    const auth = window.localStorage.getItem("sgp_admin_auth");
+    if (auth === ADMIN_PASSWORD) {
       setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
     }
   }, []);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === "Shatakshi9499") {
-      localStorage.setItem("admin_auth", password);
+    if (password === ADMIN_PASSWORD) {
+      window.localStorage.setItem("sgp_admin_auth", password);
       setIsAuthenticated(true);
       setError("");
     } else {
       setError("Incorrect password");
     }
   };
-
-  if (isAuthenticated === null) return null; // loading state
 
   if (!isAuthenticated) {
     return (
