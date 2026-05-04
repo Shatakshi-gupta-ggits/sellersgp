@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { ArrowRight, ShieldCheck, Trophy, TrendingUp, Sparkles, BadgeCheck, ShoppingBag, Megaphone, Code2, Camera, GraduationCap, BarChart3 } from "lucide-react";
+import officeImage from "@/assets/sellers-growth-point-office.webp";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -38,7 +39,7 @@ function HomePage() {
               "radial-gradient(circle at 20% 20%, oklch(0.78 0.14 80 / 0.25), transparent 40%), radial-gradient(circle at 80% 0%, oklch(0.55 0.18 28 / 0.18), transparent 45%)",
           }}
         />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 md:pt-24 pb-20 md:pb-28">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 md:pt-18 pb-16 md:pb-24 grid lg:grid-cols-[1fr_420px] gap-10 lg:gap-14 items-center">
           <div className="max-w-4xl">
             <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold text-foreground/80 shadow-sm">
               <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
@@ -65,6 +66,22 @@ function HomePage() {
               <div className="flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-accent" /> Zero upfront cost</div>
               <div className="flex items-center gap-2"><Trophy className="h-4 w-4 text-accent" /> Policy-compliant growth</div>
               <div className="flex items-center gap-2"><TrendingUp className="h-4 w-4 text-accent" /> 2X+ growth potential</div>
+            </div>
+          </div>
+
+          <div className="relative mx-auto w-full max-w-[360px] lg:max-w-none">
+            <img
+              src={officeImage}
+              alt="Sellers Growth Point e-commerce consulting workspace"
+              width={800}
+              height={1400}
+              loading="eager"
+              decoding="async"
+              className="aspect-[4/5] w-full rounded-3xl object-cover object-top shadow-2xl ring-1 ring-border"
+            />
+            <div className="absolute -bottom-5 left-5 right-5 rounded-2xl bg-card/95 p-4 shadow-lg ring-1 ring-border backdrop-blur">
+              <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Build · Grow · Scale</p>
+              <p className="mt-1 font-display text-xl">E-commerce solutions for Indian sellers.</p>
             </div>
           </div>
         </div>
