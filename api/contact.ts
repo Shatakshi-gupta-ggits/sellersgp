@@ -1,4 +1,4 @@
-import { createLead } from "../src/server/dummy-store";
+import { supabase } from '../src/integrations/supabase/client'
 
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {
@@ -29,16 +29,26 @@ export default async function handler(req: any, res: any) {
       return res.status(400).json({ error: "Name, phone, and email are required." });
     }
 
-    const lead = createLead({
-      name: payload.name,
-      phone: payload.phone,
-      email: payload.email,
-      business: payload.business,
-      service: payload.service,
-      message: payload.message,
-    });
+    const { data: lead, error } = await supabase
+      .from('leads')
+      .insert({
+        name: payload.name,
+        phone: payload.phone,
+        email: payload.email,
+        business: payload.business,
+        service: payload.service,
+        message: payload.message,
+        status: 'new'
+      })
+      .select()
+      .single();
 
-    console.log("Contact submission:", lead);
+    if (error) {
+      console.error("Supabase error:", error);
+      return res.status(500).json({ error: "Failed to save lead" });
+    }
+
+    console.log("Contact submission saved:", lead);
     return res.status(201).json({ success: true, lead });
   } catch (error) {
     console.error("Contact API error:", error);

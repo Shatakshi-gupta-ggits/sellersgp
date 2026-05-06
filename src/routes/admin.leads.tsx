@@ -16,38 +16,49 @@ type Lead = {
 
 const STATUSES: Lead["status"][] = ["new", "contacted", "won", "lost"];
 
-const INITIAL_LEADS: Lead[] = [
-  {
-    id: "lead-1",
-    name: "Anita Sharma",
-    phone: "+91 98765 43210",
-    email: "anita@example.com",
-    business: "Lifestyle Goods",
-    service: "Amazon Account Management",
-    message: "Looking to scale sales across Amazon and Flipkart.",
-    createdAt: new Date().toISOString(),
-    status: "new",
-  },
-  {
-    id: "lead-2",
-    name: "Rohan Patel",
-    phone: "+91 91234 56789",
-    email: "rohan@example.com",
-    business: "Sports Apparel",
-    service: "Digital Marketing",
-    message: "Need help growing online demand and reducing ACoS.",
-    createdAt: new Date().toISOString(),
-    status: "contacted",
-  },
-];
-
 export default function AdminLeads() {
-  const [leads, setLeads] = useState<Lead[]>(INITIAL_LEADS);
-  const [loading, setLoading] = useState(false);
+  const [leads, setLeads] = useState<Lead[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const updateStatus = (id: string, status: Lead["status"]) => {
-    setLeads((ls) => ls.map((l) => (l.id === id ? { ...l, status } : l)));
-    toast.success(`Marked as ${status}`);
+  useEffect(() => {
+    const fetchLeads = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch("/api/leads");
+        if (!response.ok) {
+          throw new Error("Failed to load leads");
+        }
+        const data = await response.json();
+        setLeads(data.leads || []);
+      } catch (error) {
+        console.error("Failed to fetch leads:", error);
+        toast.error("Unable to load leads. Please refresh.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLeads();
+  }, []);
+
+  const updateStatus = async (id: string, status: Lead["status"]) => {
+    try {
+      const response = await fetch(`/api/leads/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update lead status");
+      }
+
+      setLeads((ls) => ls.map((l) => (l.id === id ? { ...l, status } : l)));
+      toast.success(`Marked as ${status}`);
+    } catch (error) {
+      console.error("Failed to update lead:", error);
+      toast.error("Failed to update lead status. Please try again.");
+    }
   };
 
   const remove = (id: string) => {

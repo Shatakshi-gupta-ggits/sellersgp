@@ -34,6 +34,7 @@ Yes — this code can now be deployed to Vercel.
 - `vercel.json` points `outputDirectory` to `dist`
 - All client routes are rewritten to `index.html` for SPA routing
 - The `api/` folder contains a simple serverless function for `POST /api/contact`
+- Admin leads now fetch real submissions from `GET /api/leads`
 
 ## Setup and local run
 
