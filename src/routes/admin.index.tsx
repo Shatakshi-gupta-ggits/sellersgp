@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { ComponentType } from "react";
 import { Users, UserCheck, Trophy, XCircle, Wrench, TrendingUp } from "lucide-react";
-import { getStats } from "@/server/admin.functions";
+import { getStats } from "@/server/admin.functions.server";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminOverview,
