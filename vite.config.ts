@@ -4,6 +4,8 @@ import tsConfigPaths from "vite-tsconfig-paths";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
+import { nitroV2Plugin } from "@tanstack/nitro-v2-vite-plugin";  // ← ADD THIS
+
 
 function devClientErrorLogger() {
   const VIRTUAL_ID = "virtual:dev-client-error-handler";
@@ -172,7 +174,7 @@ export default defineConfig(() => {
       dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime"],
     },
     plugins: [
-      // 🔥 CRITICAL: tanstackStart MUST BE FIRST
+      nitroV2Plugin(), 
       tanstackStart({
         importProtection: {
           behavior: "mock",  // Change from 'error' to 'mock' for production
