@@ -203,6 +203,22 @@ function HomePage() {
       <section className="pb-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="rounded-3xl bg-gradient-to-r from-accent to-[oklch(0.45_0.18_25)] text-accent-foreground p-10 md:p-14 text-center shadow-xl">
+            <h2 className="text-4xl md:text-5xl font-display font-bold">Ready to Scale Your E-commerce Business?</h2>
+            <p className="mt-4 text-lg opacity-90">Join 100+ brands growing 2X+ faster with CLUTCHNEXXT on multiple marketplaces.</p>
+            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+              <Link to="/contact" className="px-8 py-3 bg-accent-foreground text-accent rounded-full font-semibold hover:opacity-90 transition">
+                Start Your Journey
+              </Link>
+              <Link to="/about" className="px-8 py-3 border border-accent-foreground rounded-full font-semibold hover:bg-white/10 transition">
+                Learn More
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    </SiteLayout>
+  );
+}
             <h2 className="font-display text-3xl md:text-5xl tracking-tight">Ready to take your brand online?</h2>
             <p className="mt-4 text-accent-foreground/85 max-w-xl mx-auto">Tell us about your business — we'll show you exactly how the CLUTCH system can scale it.</p>
             <Link to="/contact" className="mt-8 inline-flex items-center gap-2 rounded-full bg-background text-foreground px-6 py-3 text-sm font-semibold hover:opacity-90">
