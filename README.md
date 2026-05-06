@@ -1,68 +1,78 @@
 # Sellers Growth Point (SGP)
 
-This project contains the frontend and backend applications for Sellers Growth Point.
+This repository is now a standard Vite + React app that can be deployed to Vercel as a static site, with a small serverless API route for contact form submissions.
 
-## Architecture
+## Current Architecture
 
-- **Frontend**: A modern web application built with React, Vite, and TanStack Start. Hosted in the root directory.
-- **Backend**: A functional Express server located in the `backend/` directory, using a simple local `data.json` file for immediate persistence without the need for a complex database setup.
+- **Frontend**: React + Vite + `react-router-dom`
+- **Build output**: static files generated into `dist/`
+- **Routing**: client-side React Router
+- **API**: serverless endpoint at `api/contact.ts`
+- **Deployment target**: Vercel static site with a Vite build
 
-## Getting Started
+## What changed
 
-### Prerequisites
-- Node.js installed
-- MongoDB URI (Local or Atlas)
+### Previous version
+- Used **TanStack Start / TanStack React Router / Nitro**
+- Had generated route files like `src/routeTree.gen.ts` and `src/routes/__root.tsx`
+- Included old server-side runtime code and TanStack-specific plugins/plugins hooks
+- Had stale backend/server references and a `package-lock.json` containing TanStack packages
 
-### 1. Running the Backend
+### Current version
+- Removed all `@tanstack/*` imports and files
+- Replaced routing with `react-router-dom`
+- Removed legacy Nitro/TanStack route generation
+- Kept the app as a normal Vite buildable static site
+- Added `api/contact.ts` as a simple Vercel serverless POST endpoint
+- Confirmed `vercel.json` is configured for Vite static deployment
 
-The Express backend handles the API endpoints and uses MongoDB for production-ready data persistence.
+## Why this can deploy to Vercel now
 
-1. Navigate to the backend folder:
-   ```bash
-   cd backend
-   ```
-2. Set up environment variables:
-   - Create a `.env` file in the `backend/` directory.
-   - Add your connection string: `MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/database_name`
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
-4. Start the backend development server:
-   ```bash
-   npm run dev
-   ```
-   *The backend will run on `http://localhost:5000`.*
+Yes — this code can now be deployed to Vercel.
 
-### 2. Running the Frontend
+- `package.json` uses `vite build` as the build command
+- `vercel.json` points `outputDirectory` to `dist`
+- All client routes are rewritten to `index.html` for SPA routing
+- The `api/` folder contains a simple serverless function for `POST /api/contact`
 
-The frontend uses Vite, and requests to `/api` are automatically proxied to the backend at `http://localhost:5000/api`.
+## Setup and local run
 
-1. Open a new terminal and stay in the root directory.
-2. Install dependencies (if not already done):
-   ```bash
-   npm install
-   ```
-3. Start the frontend development server:
-   ```bash
-   npm run dev
-   ```
-   *The frontend will run on `http://localhost:8080` (or another port chosen by Vite).*
+### 1. Install dependencies
+```bash
+npm install
+```
 
----
+### 2. Run locally
+```bash
+npm run dev
+```
 
-## API Endpoints Overview
+Visit the local URL shown by Vite.
 
-The following endpoints are functional and persist data to `backend/data.json`:
+### 3. Build for production
+```bash
+npm run build
+```
 
-### Contact Route
-- `POST /api/contact` - Submits a new lead from the contact form.
+### 4. Preview production build
+```bash
+npm run preview
+```
 
-### Admin Routes
-- `GET /api/admin?resource=services` - Retrieves the list of available services.
-- `GET /api/admin?resource=leads` - Retrieves the list of leads.
-- `GET /api/admin?resource=stats` - Retrieves overview statistics for the admin dashboard.
-- `POST /api/admin` - Handles state mutation based on `action` payload:
-  - `{ "action": "toggleService", "id": "..." }`
-  - `{ "action": "updateLeadStatus", "id": "...", "status": "..." }`
-  - `{ "action": "deleteLead", "id": "..." }`
+## Deploy to Vercel
+
+If you use the Vercel CLI:
+
+```bash
+npm install -g vercel
+vercel login
+vercel
+```
+
+Or connect your repo from the Vercel dashboard.
+
+## Notes
+
+- The current contact API in `api/contact.ts` accepts `POST` requests, logs the payload, and returns a success response.
+- There is no longer a separate Express backend or MongoDB dependency in this repo.
+- The app is now a Vercel-friendly static Vite project with optional serverless API support.
