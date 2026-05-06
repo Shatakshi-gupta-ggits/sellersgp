@@ -38,12 +38,27 @@ Yes — this code can now be deployed to Vercel.
 
 ## Setup and local run
 
-### 1. Install dependencies
+### 1. Set up Supabase (Required for contact form persistence)
+
+1. Create a new Supabase project at [supabase.com](https://supabase.com)
+2. Go to your project dashboard → Settings → API
+3. Copy your Project URL and anon/public key
+4. Create a `.env` file in the project root:
+   ```
+   VITE_SUPABASE_URL=your_supabase_project_url
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+5. Run the database migration:
+   - Go to your Supabase dashboard → SQL Editor
+   - Copy and paste the contents of `supabase/migrations/create_leads_table.sql`
+   - Click "Run" to create the leads table
+
+### 2. Install dependencies
 ```bash
 npm install
 ```
 
-### 2. Run locally
+### 3. Run locally
 ```bash
 npm run dev
 ```
@@ -74,6 +89,8 @@ Or connect your repo from the Vercel dashboard.
 
 ## Notes
 
-- The current contact API in `api/contact.ts` accepts `POST` requests, logs the payload, and returns a success response.
-- There is no longer a separate Express backend or MongoDB dependency in this repo.
-- The app is now a Vercel-friendly static Vite project with optional serverless API support.
+- The contact form now saves submissions to Supabase for permanent storage
+- Admin dashboard (`/admin/leads`) displays real user submissions from the database
+- Leads can be updated (status changes) and deleted from the admin interface
+- The app uses Row Level Security (RLS) policies for secure access
+- Anonymous users can submit contact forms, but only authenticated users can view/manage leads

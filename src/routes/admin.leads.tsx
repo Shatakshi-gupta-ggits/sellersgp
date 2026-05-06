@@ -61,10 +61,23 @@ export default function AdminLeads() {
     }
   };
 
-  const remove = (id: string) => {
+  const remove = async (id: string) => {
     if (!confirm("Delete this lead?")) return;
-    setLeads((ls) => ls.filter((l) => l.id !== id));
-    toast.success("Lead deleted");
+    try {
+      const response = await fetch(`/api/leads/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete lead");
+      }
+
+      setLeads((ls) => ls.filter((l) => l.id !== id));
+      toast.success("Lead deleted");
+    } catch (error) {
+      console.error("Failed to delete lead:", error);
+      toast.error("Failed to delete lead. Please try again.");
+    }
   };
 
   return (
