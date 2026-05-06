@@ -158,7 +158,7 @@ function devServerFnErrorLogger() {
   };
 }
 
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(() => {
 
   return {
     server: {
@@ -172,21 +172,23 @@ export default defineConfig(({ command, mode }) => {
       dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime"],
     },
     plugins: [
+      // 🔥 CRITICAL: tanstackStart MUST BE FIRST
+      tanstackStart({
+        importProtection: {
+          behavior: "mock",  // Change from 'error' to 'mock' for production
+        },
+      }),
+      // CSS processing after TanStack
       tailwindcss(),
+      // Path resolution after TanStack
       tsConfigPaths({
         projects: ["./tsconfig.json"],
       }),
+      // React plugin after path resolution
+      viteReact(),
+      // Custom error loggers last
       devClientErrorLogger(),
       devServerFnErrorLogger(),
-      tanstackStart({
-        prerender: {
-          enabled: true,
-          crawlLinks: true,
-          autoSubfolderIndex: true,
-        },
-        // importProtection: false,
-      }),
-      viteReact(),
     ].filter(Boolean),
   };
 });
