@@ -1,3 +1,5 @@
+import { createLead } from "../src/server/dummy-store";
+
 export default async function handler(req: any, res: any) {
   if (req.method !== "POST") {
     res.setHeader("Allow", "POST");
@@ -14,9 +16,30 @@ export default async function handler(req: any, res: any) {
       req.on("error", reject);
     });
 
-    const payload = JSON.parse(body || "{}");
-    console.log("Contact submission:", payload);
-    return res.status(200).json({ success: true });
+    const payload = JSON.parse(body || "{}") as {
+      name?: string;
+      phone?: string;
+      email?: string;
+      business?: string;
+      service?: string;
+      message?: string;
+    };
+
+    if (!payload.name || !payload.phone || !payload.email) {
+      return res.status(400).json({ error: "Name, phone, and email are required." });
+    }
+
+    const lead = createLead({
+      name: payload.name,
+      phone: payload.phone,
+      email: payload.email,
+      business: payload.business,
+      service: payload.service,
+      message: payload.message,
+    });
+
+    console.log("Contact submission:", lead);
+    return res.status(201).json({ success: true, lead });
   } catch (error) {
     console.error("Contact API error:", error);
     return res.status(500).json({ error: "Internal server error" });
