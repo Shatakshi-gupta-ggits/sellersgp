@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Menu, X, Phone, ArrowRight } from "lucide-react";
 import logo from "@/assets/logo.png";
@@ -68,18 +68,18 @@ export function SiteNavbar() {
 
           <nav className="hidden lg:flex items-center gap-0.5">
             {NAV.map((item) => (
-              <Link
+              <NavLink
                 key={item.to}
                 to={item.to}
-                className="relative px-3.5 py-2 text-[13.5px] font-medium text-foreground/70 hover:text-foreground transition"
-                activeProps={{
-                  className:
-                    "relative px-3.5 py-2 text-[13.5px] font-semibold text-foreground after:content-[''] after:absolute after:left-3.5 after:right-3.5 after:-bottom-[22px] after:h-[2px] after:bg-accent",
-                }}
-                activeOptions={{ exact: item.to === "/" }}
+                className={({ isActive }) =>
+                  `relative px-3.5 py-2 text-[13.5px] font-medium transition ${
+                    isActive ? "text-foreground font-semibold after:content-[''] after:absolute after:left-3.5 after:right-3.5 after:-bottom-[22px] after:h-[2px] after:bg-accent" : "text-foreground/70 hover:text-foreground"
+                  }`
+                }
+                end={item.to === "/"}
               >
                 {item.label}
-              </Link>
+              </NavLink>
             ))}
           </nav>
 
@@ -111,19 +111,17 @@ export function SiteNavbar() {
           <div className="lg:hidden border-t border-border bg-background">
             <nav className="px-4 py-3 flex flex-col">
               {NAV.map((item) => (
-                <Link
+                <NavLink
                   key={item.to}
                   to={item.to}
                   onClick={() => setOpen(false)}
-                  className="py-2.5 text-sm font-medium text-foreground/80 border-b border-border/60 last:border-0"
-                  activeProps={{
-                    className:
-                      "py-2.5 text-sm font-semibold text-accent border-b border-border/60 last:border-0",
-                  }}
-                  activeOptions={{ exact: item.to === "/" }}
+                  className={({ isActive }) =>
+                    `py-2.5 text-sm font-medium border-b border-border/60 last:border-0 ${isActive ? "text-accent font-semibold" : "text-foreground/80"}`
+                  }
+                  end={item.to === "/"}
                 >
                   {item.label}
-                </Link>
+                </NavLink>
               ))}
               <Link
                 to="/contact"

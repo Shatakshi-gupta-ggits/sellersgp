@@ -1,19 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/SectionHeader";
 import { ArrowRight, Settings, Package, Megaphone, FileText, MessageCircle, UserCog, BarChart3 } from "lucide-react";
 
-export const Route = createFileRoute("/marketplaces")({
-  head: () => ({
-    meta: [
-      { title: "E-commerce Management — Amazon, Flipkart, Myntra, Meesho & More | Sellers Growth Point" },
-      { name: "description", content: "End-to-end e-commerce management on India's top marketplaces — Amazon, Flipkart, Myntra, Meesho, Ajio, IndiaMART, TradeIndia & JioMart. Includes our complete Amazon growth framework." },
-      { property: "og:title", content: "Multi-Platform E-commerce Management" },
-      { property: "og:description", content: "We manage your business across Amazon, Flipkart, Myntra, Meesho, Ajio, IndiaMART, TradeIndia & JioMart — including a dedicated Amazon framework." },
-    ],
-  }),
-  component: EcommercePage,
-});
+export default function MarketplacesPage() {
 
 const MARKETPLACES = [
   { name: "Amazon", emoji: "🔥", best: "Almost all categories", why: ["High traffic with ready buyers", "Strong logistics (FBA)", "High trust factor"], reality: "Competition is high, but the right strategy + ads = serious sales potential." },

@@ -1,32 +1,29 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
-import { listServices, toggleService, type Service } from "@/server/admin.functions";
 
-export const Route = createFileRoute("/admin/services")({
-  component: AdminServices,
-  loader: async () => {
-    const services = await listServices();
-    return { services };
-  },
-});
+type Service = {
+  id: string;
+  title: string;
+  description: string;
+  slug: string;
+  active: boolean;
+};
 
-function AdminServices() {
-  const { services: initialServices } = Route.useLoaderData();
-  const [services, setServices] = useState(initialServices);
+const INITIAL_SERVICES: Service[] = [
+  { id: "service-1", title: "Marketplace Management", description: "End-to-end account management on Amazon, Flipkart, Meesho, Myntra & more.", slug: "marketplace-management", active: true },
+  { id: "service-2", title: "Performance Advertising", description: "Meta Ads, Google Ads & marketplace PPC optimized for ROI.", slug: "performance-advertising", active: true },
+  { id: "service-3", title: "Web & D2C Development", description: "Conversion-focused websites and direct-to-consumer funnels.", slug: "web-d2c-development", active: false },
+];
 
-  const toggle = async (id: string) => {
-    const service = services.find(s => s.id === id);
-    if (!service) return;
-    
-    const updated = await toggleService({ id });
+export default function AdminServices() {
+  const [services, setServices] = useState<Service[]>(INITIAL_SERVICES);
 
-    if (updated) {
-      setServices((s) => s.map((x) => (x.id === id ? updated : x)));
-      toast.success(updated.active ? "Service activated" : "Service paused");
-    } else {
-      toast.error("Failed to update service");
-    }
+  const toggle = (id: string) => {
+    setServices((items) =>
+      items.map((item) =>
+        item.id === id ? { ...item, active: !item.active } : item,
+      ),
+    );
   };
 
   return (
@@ -36,7 +33,6 @@ function AdminServices() {
       <p className="text-muted-foreground mt-2">Toggle which services are currently active for new clients.</p>
 
       <div className="mt-8 space-y-3">
-        {loading && <p className="text-muted-foreground text-sm">Loading…</p>}
         {services.map((s) => (
           <article key={s.id} className="rounded-2xl border border-border bg-card p-5 flex flex-wrap items-center justify-between gap-4">
             <div>

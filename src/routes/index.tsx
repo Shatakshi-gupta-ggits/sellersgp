@@ -1,20 +1,10 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { SectionHeader } from "@/components/site/SectionHeader";
 import { ArrowRight, ShieldCheck, Trophy, TrendingUp, Sparkles, BadgeCheck, ShoppingBag, Megaphone, Code2, Camera, GraduationCap, BarChart3 } from "lucide-react";
 import officeImage from "@/assets/sellers-growth-point-office.webp";
 
-export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Sellers Growth Point by CLUTCHNEXXT — Risk-Free E-commerce Growth" },
-      { name: "description", content: "We help offline brands sell online & scale on Amazon, Flipkart, Meesho, Myntra and more — on a 100% commission-based, risk-free model. Pay only when you sell." },
-      { property: "og:title", content: "Sellers Growth Point by CLUTCHNEXXT — Grow Your Business 2X+" },
-      { property: "og:description", content: "Performance-driven e-commerce growth partner. End-to-end marketplace management, ads, content, and D2C — risk-free commission model." },
-    ],
-  }),
-  component: HomePage,
-});
+export default function HomePage() {
 
 const MARKETPLACES = ["Amazon", "Flipkart", "Myntra", "Meesho", "Ajio", "JioMart", "IndiaMART", "TradeIndia"];
 

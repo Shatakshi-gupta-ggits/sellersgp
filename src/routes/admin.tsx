@@ -1,17 +1,7 @@
-import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import { LayoutDashboard, Users, Wrench, ArrowLeft, Lock } from "lucide-react";
 import logo from "@/assets/logo.png";
 import { useState, useEffect } from "react";
-
-export const Route = createFileRoute("/admin")({
-  head: () => ({
-    meta: [
-      { title: "Admin Dashboard — Sellers Growth Point" },
-      { name: "robots", content: "noindex, nofollow" },
-    ],
-  }),
-  component: AdminLayout,
-});
 
 const NAV: Array<{ to: "/admin" | "/admin/leads" | "/admin/services"; label: string; icon: typeof LayoutDashboard; exact?: boolean }> = [
   { to: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
@@ -21,8 +11,9 @@ const NAV: Array<{ to: "/admin" | "/admin/leads" | "/admin/services"; label: str
 
 const ADMIN_PASSWORD = "Sachinlodhi_1907@#";
 
-function AdminLayout() {
-  const pathname = useRouterState({ select: (s) => s.location.pathname });
+export default function AdminLayout() {
+  const location = useLocation();
+  const pathname = location.pathname;
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");

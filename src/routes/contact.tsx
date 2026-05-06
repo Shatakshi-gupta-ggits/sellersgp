@@ -1,24 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/SectionHeader";
 import { Phone, Mail, Globe, MapPin, Send, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { createLead } from "@/server/admin.functions";
 
-export const Route = createFileRoute("/contact")({
-  head: () => ({
-    meta: [
-      { title: "Contact — Sellers Growth Point by CLUTCHNEXXT" },
-      { name: "description", content: "Get in touch with Sellers Growth Point. Book a free strategy call and start scaling your business online with our risk-free, commission-based growth system." },
-      { property: "og:title", content: "Contact Sellers Growth Point by CLUTCHNEXXT" },
-      { property: "og:description", content: "Book a free strategy call. Pay only when you sell." },
-    ],
-  }),
-  component: ContactPage,
-});
-
-function ContactPage() {
+export default function ContactPage() {
   const [submitting, setSubmitting] = useState(false);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -27,15 +13,17 @@ function ContactPage() {
     const fd = new FormData(form);
     const payload = Object.fromEntries(fd.entries());
     setSubmitting(true);
+
     try {
-      await createLead({
-        name: String(payload.name || ""),
-        phone: String(payload.phone || ""),
-        email: String(payload.email || ""),
-        business: String(payload.business || ""),
-        service: String(payload.service || ""),
-        message: String(payload.message || ""),
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to send message");
+      }
 
       toast.success("Thanks! We'll be in touch within 24 hours.");
       form.reset();

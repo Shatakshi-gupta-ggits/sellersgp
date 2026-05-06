@@ -1,19 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/SectionHeader";
 import { GraduationCap, Compass, Rocket, ArrowRight, BadgeCheck } from "lucide-react";
 
-export const Route = createFileRoute("/learning")({
-  head: () => ({
-    meta: [
-      { title: "Online Selling Learning Programs | Sellers Growth Point" },
-      { name: "description", content: "Practical, structured training to manage your online selling journey independently — marketplace selling, ads & real-world execution." },
-      { property: "og:title", content: "Online Selling Learning Programs" },
-      { property: "og:description", content: "Marketplace training, ads training and practical execution guidance for sellers and businesses." },
-    ],
-  }),
-  component: LearningPage,
-});
+export default function LearningPage() {
 
 const TRACKS = [
   { icon: Compass, title: "Marketplace Selling Foundations", points: ["Account setup on Amazon, Flipkart, Meesho", "Listings, SEO & catalog optimization", "Pricing & competitor strategy"] },

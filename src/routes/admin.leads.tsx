@@ -1,50 +1,59 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Trash2, Mail, Phone } from "lucide-react";
 import { toast } from "sonner";
-import { deleteLead, listLeads, updateLeadStatus, type Lead } from "@/server/admin.functions";
 
-export const Route = createFileRoute("/admin/leads")({
-  component: AdminLeads,
-  loader: async () => {
-    const leads = await listLeads();
-    return { leads };
-  },
-});
+type Lead = {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  business?: string;
+  service?: string;
+  message?: string;
+  createdAt: string;
+  status: "new" | "contacted" | "won" | "lost";
+};
 
 const STATUSES: Lead["status"][] = ["new", "contacted", "won", "lost"];
 
-function AdminLeads() {
-  const { leads: initialLeads } = Route.useLoaderData();
-  const [leads, setLeads] = useState(initialLeads);
+const INITIAL_LEADS: Lead[] = [
+  {
+    id: "lead-1",
+    name: "Anita Sharma",
+    phone: "+91 98765 43210",
+    email: "anita@example.com",
+    business: "Lifestyle Goods",
+    service: "Amazon Account Management",
+    message: "Looking to scale sales across Amazon and Flipkart.",
+    createdAt: new Date().toISOString(),
+    status: "new",
+  },
+  {
+    id: "lead-2",
+    name: "Rohan Patel",
+    phone: "+91 91234 56789",
+    email: "rohan@example.com",
+    business: "Sports Apparel",
+    service: "Digital Marketing",
+    message: "Need help growing online demand and reducing ACoS.",
+    createdAt: new Date().toISOString(),
+    status: "contacted",
+  },
+];
+
+export default function AdminLeads() {
+  const [leads, setLeads] = useState<Lead[]>(INITIAL_LEADS);
   const [loading, setLoading] = useState(false);
 
-  const load = async () => {
-    setLoading(true);
-    const freshLeads = await listLeads();
-    setLeads(freshLeads);
-    setLoading(false);
+  const updateStatus = (id: string, status: Lead["status"]) => {
+    setLeads((ls) => ls.map((l) => (l.id === id ? { ...l, status } : l)));
+    toast.success(`Marked as ${status}`);
   };
 
-  const updateStatus = async (id: string, status: Lead["status"]) => {
-    const updated = await updateLeadStatus({ id, status });
-    if (updated) {
-      setLeads((ls) => ls.map((l) => (l.id === id ? { ...l, status } : l)));
-      toast.success(`Marked as ${status}`);
-    } else {
-      toast.error("Failed to update status");
-    }
-  };
-
-  const remove = async (id: string) => {
+  const remove = (id: string) => {
     if (!confirm("Delete this lead?")) return;
-    const success = await deleteLead({ id });
-    if (success) {
-      setLeads((ls) => ls.filter((l) => l.id !== id));
-      toast.success("Lead deleted");
-    } else {
-      toast.error("Failed to delete lead");
-    }
+    setLeads((ls) => ls.filter((l) => l.id !== id));
+    toast.success("Lead deleted");
   };
 
   return (

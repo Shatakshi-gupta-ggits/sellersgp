@@ -1,10 +1,7 @@
 import path from "path";
 import { defineConfig } from "vite";
-import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
-import { nitroV2Plugin } from "@tanstack/nitro-v2-vite-plugin";
-
 
 function devClientErrorLogger() {
   const VIRTUAL_ID = "virtual:dev-client-error-handler";
@@ -102,63 +99,6 @@ function devClientErrorLogger() {
   };
 }
 
-function devServerFnErrorLogger() {
-  const HMR_SEND_KEY = "__TANSTACK_SERVER_FN_HMR_SEND__";
-
-  return {
-    name: "dev-server-fn-error-logger",
-    apply: "serve" as const,
-    enforce: "pre" as const,
-    configureServer(server: import("vite").ViteDevServer) {
-      (globalThis as Record<string, unknown>)[HMR_SEND_KEY] = (data: unknown) => {
-        server.ws.send({
-          type: "custom",
-          event: "server-fn-error",
-          data,
-        });
-      };
-    },
-    transform(code: string, id: string) {
-      const normalizedId = id.replace(/\\/g, "/");
-      const isTargetModule =
-        normalizedId.includes(
-          "/@tanstack/start-server-core/src/server-functions-handler.ts",
-        ) ||
-        normalizedId.includes(
-          "/@tanstack/start-server-core/dist/esm/server-functions-handler.js",
-        );
-
-      if (!isTargetModule) {
-        return null;
-      }
-
-      const needle = "const unwrapped = res.result || res.error";
-      if (!code.includes(needle)) {
-        return null;
-      }
-
-      return code.replace(
-        needle,
-        `${needle}
-
-      if (res?.error) {
-        const err = res.error
-        const payload = {
-          source: 'tanstack',
-          type: 'server-fn-error',
-          method: request.method,
-          url: request.url,
-          name: err?.name ?? 'Error',
-          message: err?.message ?? String(err),
-          stack: typeof err?.stack === 'string' ? err.stack : undefined,
-        }
-        globalThis.${HMR_SEND_KEY}?.(payload)
-      }`,
-      );
-    },
-  };
-}
-
 export default defineConfig(() => {
 
   return {
@@ -173,17 +113,9 @@ export default defineConfig(() => {
       dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime"],
     },
     plugins: [
-      nitroV2Plugin(),
-      tanstackStart({
-        importProtection: {
-          behavior: 'mock',
-        },
-      }),
       tailwindcss(),
-      // tsConfigPaths REMOVED – use alias above instead
       viteReact(),
       devClientErrorLogger(),
-      devServerFnErrorLogger(),
-    ].filter(Boolean),
+    ],
   };
 });

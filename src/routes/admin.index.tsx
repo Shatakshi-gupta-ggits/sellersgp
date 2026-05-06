@@ -1,23 +1,29 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import type { ComponentType } from "react";
 import { Users, UserCheck, Trophy, XCircle, Wrench, TrendingUp } from "lucide-react";
-import { getStats } from "@/server/admin.functions.server";
 
-export const Route = createFileRoute("/admin/")({
-  component: AdminOverview,
-  loader: async () => {
-    const stats = await getStats();
-    return { stats };
-  },
-});
-
-type Stats = {
-  totalLeads: number; newLeads: number; contacted: number; won: number; lost: number;
-  activeServices: number; totalServices: number;
+const STATS = {
+  totalLeads: 18,
+  newLeads: 5,
+  contacted: 8,
+  won: 2,
+  lost: 3,
+  activeServices: 6,
+  totalServices: 10,
 };
 
-function AdminOverview() {
-  const { stats } = Route.useLoaderData();
+type Stats = {
+  totalLeads: number;
+  newLeads: number;
+  contacted: number;
+  won: number;
+  lost: number;
+  activeServices: number;
+  totalServices: number;
+};
+
+export default function AdminOverview() {
+  const stats: Stats = STATS;
 
   return (
     <div className="max-w-6xl mx-auto">

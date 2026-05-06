@@ -1,19 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/SectionHeader";
 import { ShoppingBag, Globe, Megaphone, Share2, Target, Film, Camera, Palette, Rocket, GraduationCap, ArrowRight } from "lucide-react";
 
-export const Route = createFileRoute("/services")({
-  head: () => ({
-    meta: [
-      { title: "Services — E-commerce, Marketing, Web & Creative | Sellers Growth Point" },
-      { name: "description", content: "End-to-end e-commerce growth services: marketplace management, web development, digital marketing, Meta Ads, creative, and online selling programs." },
-      { property: "og:title", content: "Our Services — Sellers Growth Point by CLUTCHNEXXT" },
-      { property: "og:description", content: "Marketplace management, web dev, digital marketing, Meta Ads, AI product photography, video ads & online selling programs." },
-    ],
-  }),
-  component: ServicesPage,
-});
+export default function ServicesPage() {
 
 const SERVICES = [
   {

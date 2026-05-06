@@ -1,19 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/SectionHeader";
 import { Target, Eye, Heart, ShieldCheck, ArrowRight } from "lucide-react";
 
-export const Route = createFileRoute("/about")({
-  head: () => ({
-    meta: [
-      { title: "About — Sellers Growth Point by CLUTCHNEXXT" },
-      { name: "description", content: "We are a performance-driven e-commerce consulting & growth solutions company helping offline brands scale online with a risk-free, commission-based model." },
-      { property: "og:title", content: "About Sellers Growth Point by CLUTCHNEXXT" },
-      { property: "og:description", content: "Transforming traditional businesses into structured, profitable, scalable online brands." },
-    ],
-  }),
-  component: AboutPage,
-});
+export default function AboutPage() {
 
 function AboutPage() {
   return (
