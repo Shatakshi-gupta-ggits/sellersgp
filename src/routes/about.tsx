@@ -4,8 +4,6 @@ import { PageHero } from "@/components/site/SectionHeader";
 import { Target, Eye, Heart, ShieldCheck, ArrowRight } from "lucide-react";
 
 export default function AboutPage() {
-
-function AboutPage() {
   return (
     <SiteLayout>
       <PageHero

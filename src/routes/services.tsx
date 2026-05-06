@@ -3,8 +3,6 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/SectionHeader";
 import { ShoppingBag, Globe, Megaphone, Share2, Target, Film, Camera, Palette, Rocket, GraduationCap, ArrowRight } from "lucide-react";
 
-export default function ServicesPage() {
-
 const SERVICES = [
   {
     icon: ShoppingBag,
@@ -68,7 +66,7 @@ const SERVICES = [
   },
 ];
 
-function ServicesPage() {
+export default function ServicesPage() {
   return (
     <SiteLayout>
       <PageHero

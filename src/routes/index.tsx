@@ -4,8 +4,6 @@ import { SectionHeader } from "@/components/site/SectionHeader";
 import { ArrowRight, ShieldCheck, Trophy, TrendingUp, Sparkles, BadgeCheck, ShoppingBag, Megaphone, Code2, Camera, GraduationCap, BarChart3 } from "lucide-react";
 import officeImage from "@/assets/sellers-growth-point-office.webp";
 
-export default function HomePage() {
-
 const MARKETPLACES = ["Amazon", "Flipkart", "Myntra", "Meesho", "Ajio", "JioMart", "IndiaMART", "TradeIndia"];
 
 const SERVICES = [
@@ -17,7 +15,7 @@ const SERVICES = [
   { icon: BarChart3, title: "Strategy & Analytics", desc: "Sales forecasting, competitor analysis and monthly performance reviews." },
 ];
 
-function HomePage() {
+export default function HomePage() {
   return (
     <SiteLayout>
       {/* HERO */}
@@ -213,17 +211,6 @@ function HomePage() {
                 Learn More
               </Link>
             </div>
-          </div>
-        </div>
-      </section>
-    </SiteLayout>
-  );
-}
-            <h2 className="font-display text-3xl md:text-5xl tracking-tight">Ready to take your brand online?</h2>
-            <p className="mt-4 text-accent-foreground/85 max-w-xl mx-auto">Tell us about your business — we'll show you exactly how the CLUTCH system can scale it.</p>
-            <Link to="/contact" className="mt-8 inline-flex items-center gap-2 rounded-full bg-background text-foreground px-6 py-3 text-sm font-semibold hover:opacity-90">
-              Get a Free Strategy Call <ArrowRight className="h-4 w-4" />
-            </Link>
           </div>
         </div>
       </section>

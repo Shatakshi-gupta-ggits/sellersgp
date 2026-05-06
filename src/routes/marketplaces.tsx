@@ -3,8 +3,6 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/SectionHeader";
 import { ArrowRight, Settings, Package, Megaphone, FileText, MessageCircle, UserCog, BarChart3 } from "lucide-react";
 
-export default function MarketplacesPage() {
-
 const MARKETPLACES = [
   { name: "Amazon", emoji: "🔥", best: "Almost all categories", why: ["High traffic with ready buyers", "Strong logistics (FBA)", "High trust factor"], reality: "Competition is high, but the right strategy + ads = serious sales potential." },
   { name: "Flipkart", emoji: "🛍️", best: "Budget products, mass market", why: ["Strong India-wide customer base", "Tier 2/3 city demand", "Less strict than Amazon"], reality: "Tighter margins but excellent volume." },
@@ -26,7 +24,7 @@ const AMAZON_FRAMEWORK = [
   { icon: BarChart3, title: "Strategic Account Management", scope: ["Sales forecasting & expansion", "Product launch strategy", "Competitor analysis", "Monthly performance reviews"] },
 ];
 
-function EcommercePage() {
+export default function MarketplacesPage() {
   return (
     <SiteLayout>
       <PageHero

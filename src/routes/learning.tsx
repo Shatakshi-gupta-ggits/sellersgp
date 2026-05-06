@@ -3,15 +3,13 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/SectionHeader";
 import { GraduationCap, Compass, Rocket, ArrowRight, BadgeCheck } from "lucide-react";
 
-export default function LearningPage() {
-
 const TRACKS = [
   { icon: Compass, title: "Marketplace Selling Foundations", points: ["Account setup on Amazon, Flipkart, Meesho", "Listings, SEO & catalog optimization", "Pricing & competitor strategy"] },
   { icon: Rocket, title: "Ads & Marketing Mastery", points: ["Amazon PPC fundamentals", "Meta Ads (Facebook & Instagram)", "Budget planning & ROI tracking"] },
   { icon: GraduationCap, title: "Practical Execution Guidance", points: ["Real-world case studies", "Step-by-step playbooks", "Long-term scaling principles"] },
 ];
 
-function LearningPage() {
+export default function LearningPage() {
   return (
     <SiteLayout>
       <PageHero
