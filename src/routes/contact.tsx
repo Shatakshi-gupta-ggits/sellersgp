@@ -4,7 +4,7 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { PageHero } from "@/components/site/SectionHeader";
 import { Phone, Mail, Globe, MapPin, Send, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { createLead } from "@/server/dummy-store";
+import { createLead } from "@/server/admin.functions";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -28,7 +28,7 @@ function ContactPage() {
     const payload = Object.fromEntries(fd.entries());
     setSubmitting(true);
     try {
-      createLead({
+      await createLead({
         name: String(payload.name || ""),
         phone: String(payload.phone || ""),
         email: String(payload.email || ""),

@@ -1,10 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { ComponentType } from "react";
 import { Users, UserCheck, Trophy, XCircle, Wrench, TrendingUp } from "lucide-react";
-import { getStats } from "@/server/dummy-store";
+import { getStats } from "@/server/admin.functions";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminOverview,
+  loader: async () => {
+    const stats = await getStats();
+    return { stats };
+  },
 });
 
 type Stats = {
@@ -13,7 +17,7 @@ type Stats = {
 };
 
 function AdminOverview() {
-  const stats: Stats = getStats();
+  const { stats } = Route.useLoaderData();
 
   return (
     <div className="max-w-6xl mx-auto">

@@ -2,28 +2,32 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Trash2, Mail, Phone } from "lucide-react";
 import { toast } from "sonner";
-import { deleteLead, listLeads, updateLeadStatus, type Lead } from "@/server/dummy-store";
+import { deleteLead, listLeads, updateLeadStatus, type Lead } from "@/server/admin.functions";
 
 export const Route = createFileRoute("/admin/leads")({
   component: AdminLeads,
+  loader: async () => {
+    const leads = await listLeads();
+    return { leads };
+  },
 });
 
 const STATUSES: Lead["status"][] = ["new", "contacted", "won", "lost"];
 
 function AdminLeads() {
-  const [leads, setLeads] = useState<Lead[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { leads: initialLeads } = Route.useLoaderData();
+  const [leads, setLeads] = useState(initialLeads);
+  const [loading, setLoading] = useState(false);
 
   const load = async () => {
     setLoading(true);
-    setLeads(listLeads());
+    const freshLeads = await listLeads();
+    setLeads(freshLeads);
     setLoading(false);
   };
 
-  useEffect(() => { load(); }, []);
-
   const updateStatus = async (id: string, status: Lead["status"]) => {
-    const updated = updateLeadStatus(id, status);
+    const updated = await updateLeadStatus({ id, status });
     if (updated) {
       setLeads((ls) => ls.map((l) => (l.id === id ? { ...l, status } : l)));
       toast.success(`Marked as ${status}`);
@@ -34,7 +38,8 @@ function AdminLeads() {
 
   const remove = async (id: string) => {
     if (!confirm("Delete this lead?")) return;
-    if (deleteLead(id)) {
+    const success = await deleteLead({ id });
+    if (success) {
       setLeads((ls) => ls.filter((l) => l.id !== id));
       toast.success("Lead deleted");
     } else {

@@ -1,26 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
-import { listServices, toggleService, type Service } from "@/server/dummy-store";
+import { listServices, toggleService, type Service } from "@/server/admin.functions";
 
 export const Route = createFileRoute("/admin/services")({
   component: AdminServices,
+  loader: async () => {
+    const services = await listServices();
+    return { services };
+  },
 });
 
 function AdminServices() {
-  const [services, setServices] = useState<Service[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setServices(listServices());
-    setLoading(false);
-  }, []);
+  const { services: initialServices } = Route.useLoaderData();
+  const [services, setServices] = useState(initialServices);
 
   const toggle = async (id: string) => {
     const service = services.find(s => s.id === id);
     if (!service) return;
     
-    const updated = toggleService(id);
+    const updated = await toggleService({ id });
 
     if (updated) {
       setServices((s) => s.map((x) => (x.id === id ? updated : x)));
