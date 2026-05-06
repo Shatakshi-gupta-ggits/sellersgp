@@ -184,6 +184,7 @@ export default defineConfig(({ command, mode }) => {
           crawlLinks: true,
           autoSubfolderIndex: true,
         },
+        // importProtection: false,
       }),
       viteReact(),
     ].filter(Boolean),
