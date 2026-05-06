@@ -1,10 +1,9 @@
 import path from "path";
 import { defineConfig } from "vite";
-import tsConfigPaths from "vite-tsconfig-paths";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
-import { nitroV2Plugin } from "@tanstack/nitro-v2-vite-plugin";  // ← ADD THIS
+import { nitroV2Plugin } from "@tanstack/nitro-v2-vite-plugin";
 
 
 function devClientErrorLogger() {
@@ -174,21 +173,15 @@ export default defineConfig(() => {
       dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime"],
     },
     plugins: [
-      nitroV2Plugin(), 
+      nitroV2Plugin(),
       tanstackStart({
         importProtection: {
-          behavior: "mock",  // Change from 'error' to 'mock' for production
+          behavior: 'mock',
         },
       }),
-      // CSS processing after TanStack
       tailwindcss(),
-      // Path resolution after TanStack
-      tsConfigPaths({
-        projects: ["./tsconfig.json"],
-      }),
-      // React plugin after path resolution
+      // tsConfigPaths REMOVED – use alias above instead
       viteReact(),
-      // Custom error loggers last
       devClientErrorLogger(),
       devServerFnErrorLogger(),
     ].filter(Boolean),
