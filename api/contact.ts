@@ -48,8 +48,13 @@ export default async function handler(req: any, res: any) {
       return res.status(500).json({ error: "Failed to save lead" });
     }
 
-    console.log("Contact submission saved:", lead);
-    return res.status(201).json({ success: true, lead });
+    const normalizedLead = {
+      ...lead,
+      createdAt: (lead as any).created_at,
+    };
+
+    console.log("Contact submission saved:", normalizedLead);
+    return res.status(201).json({ success: true, lead: normalizedLead });
   } catch (error) {
     console.error("Contact API error:", error);
     return res.status(500).json({ error: "Internal server error" });

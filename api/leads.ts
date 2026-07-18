@@ -17,7 +17,12 @@ export default async function handler(req: any, res: any) {
       return res.status(500).json({ error: "Failed to fetch leads" });
     }
 
-    return res.status(200).json({ leads: leads || [] });
+    const normalizedLeads = (leads || []).map((lead) => ({
+      ...lead,
+      createdAt: (lead as any).created_at,
+    }));
+
+    return res.status(200).json({ leads: normalizedLeads });
   } catch (error) {
     console.error("Leads API error:", error);
     return res.status(500).json({ error: "Internal server error" });

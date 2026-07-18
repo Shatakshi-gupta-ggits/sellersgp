@@ -46,7 +46,8 @@ Yes — this code can now be deployed to Vercel.
 4. Create a `.env` file in the project root:
    ```
    VITE_SUPABASE_URL=your_supabase_project_url
-   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+   VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key
+   VITE_SUPABASE_PROJECT_ID=your_supabase_project_id
    ```
 5. Run the database migration:
    - Go to your Supabase dashboard → SQL Editor

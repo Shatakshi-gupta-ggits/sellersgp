@@ -1,4 +1,4 @@
-import { supabase } from '../src/integrations/supabase/client'
+import { supabase } from '../../src/integrations/supabase/client'
 
 export default async function handler(req: any, res: any) {
   if (req.method === "PATCH") {
@@ -37,8 +37,13 @@ export default async function handler(req: any, res: any) {
         return res.status(404).json({ error: "Lead not found" });
       }
 
-      console.log("Lead status updated:", lead);
-      return res.status(200).json({ success: true, lead });
+      const normalizedLead = {
+        ...lead,
+        createdAt: (lead as any).created_at,
+      };
+
+      console.log("Lead status updated:", normalizedLead);
+      return res.status(200).json({ success: true, lead: normalizedLead });
     } catch (error) {
       console.error("Update lead API error:", error);
       return res.status(500).json({ error: "Internal server error" });
